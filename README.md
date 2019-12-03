@@ -72,8 +72,8 @@ All URIs are relative to *http://agentplatform.grs.uh.cu/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**get_agent**](docs/DefaultApi.md#get_agent) | **GET** /getAgent | 
-*DefaultApi* | [**get_agents_by_function**](docs/DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction | 
+*DefaultApi* | [**get_agent**](docs/DefaultApi.md#get_agent) | **GET** /getAgent/{Name} | 
+*DefaultApi* | [**get_agents_by_function**](docs/DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction/{Name} | 
 *DefaultApi* | [**get_agents_names**](docs/DefaultApi.md#get_agents_names) | **GET** /getAllAgentsNames | 
 *DefaultApi* | [**get_peers**](docs/DefaultApi.md#get_peers) | **GET** /getPeers | 
 *DefaultApi* | [**get_similar_agent**](docs/DefaultApi.md#get_similar_agent) | **GET** /getSimilarAgents/{Name} | 
@@ -83,7 +83,6 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [Addr](docs/Addr.md)
- - [AddrAllOf](docs/AddrAllOf.md)
  - [Agent](docs/Agent.md)
  - [Error](docs/Error.md)
  - [TestCase](docs/TestCase.md)

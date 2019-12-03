@@ -34,17 +34,73 @@ class Addr(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'ip': 'str',
+        'port': 'int'
     }
 
     attribute_map = {
+        'ip': 'Ip',
+        'port': 'Port'
     }
 
-    def __init__(self, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, ip=None, port=None, local_vars_configuration=None):  # noqa: E501
         """Addr - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
         self.local_vars_configuration = local_vars_configuration
+
+        self._ip = None
+        self._port = None
         self.discriminator = None
+
+        self.ip = ip
+        self.port = port
+
+    @property
+    def ip(self):
+        """Gets the ip of this Addr.  # noqa: E501
+
+
+        :return: The ip of this Addr.  # noqa: E501
+        :rtype: str
+        """
+        return self._ip
+
+    @ip.setter
+    def ip(self, ip):
+        """Sets the ip of this Addr.
+
+
+        :param ip: The ip of this Addr.  # noqa: E501
+        :type: str
+        """
+        if self.local_vars_configuration.client_side_validation and ip is None:  # noqa: E501
+            raise ValueError("Invalid value for `ip`, must not be `None`")  # noqa: E501
+
+        self._ip = ip
+
+    @property
+    def port(self):
+        """Gets the port of this Addr.  # noqa: E501
+
+
+        :return: The port of this Addr.  # noqa: E501
+        :rtype: int
+        """
+        return self._port
+
+    @port.setter
+    def port(self, port):
+        """Sets the port of this Addr.
+
+
+        :param port: The port of this Addr.  # noqa: E501
+        :type: int
+        """
+        if self.local_vars_configuration.client_side_validation and port is None:  # noqa: E501
+            raise ValueError("Invalid value for `port`, must not be `None`")  # noqa: E501
+
+        self._port = port
 
     def to_dict(self):
         """Returns the model properties as a dict"""

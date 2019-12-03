@@ -4,8 +4,8 @@ All URIs are relative to *http://agentplatform.grs.uh.cu/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_agent**](DefaultApi.md#get_agent) | **GET** /getAgent | 
-[**get_agents_by_function**](DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction | 
+[**get_agent**](DefaultApi.md#get_agent) | **GET** /getAgent/{Name} | 
+[**get_agents_by_function**](DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction/{Name} | 
 [**get_agents_names**](DefaultApi.md#get_agents_names) | **GET** /getAllAgentsNames | 
 [**get_peers**](DefaultApi.md#get_peers) | **GET** /getPeers | 
 [**get_similar_agent**](DefaultApi.md#get_similar_agent) | **GET** /getSimilarAgents/{Name} | 

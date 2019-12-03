@@ -30,7 +30,6 @@ from lib_agent.exceptions import ApiKeyError
 from lib_agent.exceptions import ApiException
 # import models into sdk package
 from lib_agent.models.addr import Addr
-from lib_agent.models.addr_all_of import AddrAllOf
 from lib_agent.models.agent import Agent
 from lib_agent.models.error import Error
 from lib_agent.models.test_case import TestCase
