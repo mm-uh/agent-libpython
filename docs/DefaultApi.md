@@ -67,7 +67,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agents_by_function**
-> Agent get_agents_by_function(name)
+> list[list[Addr]] get_agents_by_function(name)
 
 
 
@@ -101,7 +101,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Agent**](Agent.md)
+**list[list[Addr]]**
 
 ### Authorization
 
@@ -115,7 +115,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Get the agent that represent the params |  -  |
+**200** | Get the agents endpoints([3]Addr) that represent the active agents that follow the function name  |  -  |
 **0** | unexpected error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
