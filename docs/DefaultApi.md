@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **get_agent**
-> Agent get_agent(name)
+> list[Addr] get_agent(name)
 
 
 
@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Agent**](Agent.md)
+[**list[Addr]**](Addr.md)
 
 ### Authorization
 
