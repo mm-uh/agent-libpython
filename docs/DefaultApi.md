@@ -61,7 +61,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Get the agent that represent the params |  -  |
+**200** | Response Should contain 3 Addr Response[0] Agent Addr Response[1] Agent Is Alive endpoint Addr Response[2] Agent Documentation Addr  |  -  |
 **0** | unexpected error |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
