@@ -8,7 +8,18 @@ from random import seed
 from random import randint
 
 
-class AgentWrapper:
+def Retry(f):
+    def decorate(*args, **kwargs):
+        while True:
+            try:
+                return f(*args, **kwargs)
+            except ConnectionRefusedError or ConnectionRefusedError or ConnectionResetError as e:
+                args = [arg for arg in args]
+                args[0] = args[0].refreshAgent()
+    return decorate
+        
+
+class PlatformWrapper:
     def __init__(self, host, port):
         self.host = host
         self.port = port
@@ -82,7 +93,7 @@ class AgentWrapper:
         print(f'Getting agent {name}')
         try:
             agent = self.api_instance.get_agent(name)
-            return agent
+            return AgentWrapper(name, agent, self)
         except:
             print('Could\'t get agent')
             return None
@@ -149,3 +160,55 @@ class AgentWrapper:
         finally:
             sock.close()
         return response
+
+
+class AgentWrapper:
+    def __init__(self, name, addrs, platform):
+        self.addrs = addrs
+        self.serviceEndpoint = (addrs[0].ip, addrs[0].port)
+        self.isAliveEndpoint = (addrs[1].ip, addrs[1].port)
+        self.documentationEndpoint = (addrs[2].ip, addrs[2].port)
+        self.name = name
+        self.platform = platform
+
+    def isAlive(self):
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            sock.connect(self.isAliveEndpoint)
+            sock.send("IsAlive?".encode())
+            response = sock.recv(20)
+            if response.decode() == "Yes":
+                return True
+            return False
+        except:
+            return False
+    @Retry
+    def getDocumentation(self):
+        # if not self.isAlive():
+        #     self.refreshAgent()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(self.documentationEndpoint)
+        sock.send("get".encode())
+        data = sock.recv()
+        return data.decode()
+
+    def refreshAgent(self):
+        newAddr = self.platform.get_agent(self.name).addrs
+        agent = AgentWrapper(self.name, newAddr, self.platform)
+        if agent is None:
+            raise Exception(f'There is no active agent with name {self.name}')
+        return agent
+    @Retry
+    def sendToAgent(self, dataSend):
+        # if not self.isAlive():
+            # self.refreshAgent()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect(self.serviceEndpoint)
+
+        sock.sendall(dataSend.encode())
+        data = sock.recv(1024)
+        return data.decode()
+        
+
+
+
