@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import ctypes
 import socket
 import sys
 import threading
@@ -32,8 +33,8 @@ def handle_documentation(ip, port):
                 print('received {!r}'.format(data))
                 if data:
                     print('sending data back to the client')
-                    connection.sendall(bytes('You must pass 2 numbers separated by spaces. \n'
-                                             'This agent just sum both numbers and return that sum in string\n'))
+                    connection.sendall('You must pass 2 numbers separated by spaces. \n'
+                                       'This agent just sum both numbers and return that sum in string\n'.encode())
                 else:
                     print('no data from', client_address)
                     break
@@ -66,8 +67,7 @@ def handle_is_alive(ip, port):
             message = data.decode()
 
             if 'IsAlive?' in message:
-                print('number of send bytes')
-                print(connection.send('Yes'.encode()))
+                connection.send('Yes'.encode())
         # Clean up the connection
         connection.close()
 
@@ -94,16 +94,37 @@ def handle_sum(ip, port):
 
             nums = message.split(' ')
             if len(nums) != 2:
-                connection.sendall(bytes("-1\n"))
+                connection.sendall("-1".encode())
             else:
                 try:
-                    connection.sendall(bytes(f"{float(nums[0]) + float(nums[1])}\n"))
-                except:
-                    pass
+                    add = float(nums[0]) + float(nums[1])
+                    connection.sendall(str(add).encode())
+                except Exception as e:
+                    print(f'Error sending sum response {e}')
             # Receive the data in small chunks and retransmit it
         finally:
             # Clean up the connection
             connection.close()
+
+
+def terminate_thread(thread):
+    """Terminates a python thread from another thread.
+
+    :param thread: a threading.Thread instance
+    """
+    if not thread.isAlive():
+        return
+
+    exc = ctypes.py_object(SystemExit)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
+        ctypes.c_long(thread.ident), exc)
+    if res == 0:
+        raise ValueError("nonexistent thread id")
+    elif res > 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(thread.ident, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
 
 
 def main():
@@ -175,9 +196,18 @@ def main():
     except ApiException as e:
         print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
 
-    sum_server.join()
-    is_alive_server.join()
-    doc_server.join()
+    # Run agent
+    try:
+        response = wrapper.run_agent(agent.name, '1 2')
+        print(response)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
+
+
+
+    terminate_thread(sum_server)
+    terminate_thread(is_alive_server)
+    terminate_thread(doc_server)
 
 
 if __name__ == '__main__':

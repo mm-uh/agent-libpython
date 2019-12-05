@@ -142,9 +142,9 @@ class AgentWrapper:
 
             while True:
                 data: bytes = sock.recv(16)
-                if data is None:
+                if len(data) == 0:
                     break
-            response += data.decode()
+                response += data.decode()
 
         finally:
             sock.close()
