@@ -43,11 +43,24 @@ def main():
     api_instance = lib_agent.DefaultApi(lib_agent.ApiClient(config))
 
     try:
+        print(api_instance.get_peers())
+    except ApiException as e:
+        print("Exception when calling DefaultApi->register_agent: %s\n" % e)
+
+    try:
         api_instance.register_agent(agent)
-        # api_instance.register_agent(agent1)
-        # api_instance.register_agent(agent2)
-        # api_instance.register_agent(agent3)
+        print("Agent registered")
+    except ApiException as e:
+        print("Exception when calling DefaultApi->register_agent: %s\n" % e)
+
+    try:
+        print("Agent Names")
         print(api_instance.get_agents_names())
+    except ApiException as e:
+        print("Exception when calling DefaultApi->register_agent: %s\n" % e)
+
+    try:
+        print(f"Agent by name -> {name}")
         ag = api_instance.get_agent(name)
         print(f'Agent Name -> {ag.name}')
         print(f'Agent Function -> {ag.function}')

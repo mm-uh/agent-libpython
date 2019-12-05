@@ -20,16 +20,13 @@ class AgentWrapper:
         self.get_peers()
 
     def get_peers(self):
-        if not self.update_api():
-            print('Could\'t get peers')
-            return
         print('Getting peers')
         try:
             temp_peers = self.api_instance.get_peers()
             print('Obtained peers')
             self.know_peers = list(set().union(self.know_peers, temp_peers))
-        except:
-            print('Could\'t get peers')
+        except Exception as e:
+            print('Could\'t get peers' + str(e))
         self.update_peers()
 
     def update_peers(self):
@@ -44,8 +41,8 @@ class AgentWrapper:
         seed(1)
         rnd = randint(0, len(self.know_peers))
         config = lib_agent.Configuration()
-        config.host = f'http://{self.know_peers[rnd].ip}:{self.know_peers[rnd].port}/api/v1'
-        api_temp = lib_agent.DefaultApi(lib_agent.ApiClient(self.config))
+        config.host = f'http://{self.know_peers[rnd].ip}:{self.know_peers[rnd].port+1000}/api/v1'
+        api_temp = lib_agent.DefaultApi(lib_agent.ApiClient(config))
         try:
             temp_peers = api_temp.get_peers()
             print('Obtained peers')
@@ -70,7 +67,7 @@ class AgentWrapper:
             for node in self.know_peers:
                 if self.is_open(node.ip, node.port):
                     self.host = node.ip
-                    self.port = node.port
+                    self.port = node.port + 1000
                     self.config.host = f'http://{self.host}:{self.port}/api/v1'
                     self.api_instance = lib_agent.DefaultApi(lib_agent.ApiClient(self.config))
                     return True
@@ -78,10 +75,10 @@ class AgentWrapper:
                 return False
         return True
 
-    def get_agent(self, name):
+    def get_agent(self, name: str):
         if not self.update_api():
             print('Could\'t get peers')
-            return
+            return None
         print(f'Getting agent {name}')
         try:
             agent = self.api_instance.get_agent(name)
@@ -117,11 +114,12 @@ class AgentWrapper:
     def get_agent_by_function(self, name):
         if not self.update_api():
             print('Could\'t get peers')
-            return
+            return None
 
         print('Getting agent by function')
         try:
-            return self.api_instance.get_agents_by_function(name)
+            func = self.api_instance.get_agents_by_function(name)
+            return func
         except:
             print('Couldn\'t get agent by function')
             return None

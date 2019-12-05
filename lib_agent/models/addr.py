@@ -89,6 +89,9 @@ class Addr(object):
         """
         return self._port
 
+    def __hash__(self):
+        return f'{self.ip}:{self.port}'.__hash__()
+
     @port.setter
     def port(self, port):
         """Sets the port of this Addr.
