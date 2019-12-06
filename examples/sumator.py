@@ -97,7 +97,7 @@ def handle_sum(ip, port):
                 connection.sendall("-1".encode())
             else:
                 try:
-                    add = float(nums[0]) + float(nums[1])
+                    add = int(nums[0]) + int(nums[1])
                     connection.sendall(str(add).encode())
                 except Exception as e:
                     print(f'Error sending sum response {e}')
@@ -203,11 +203,9 @@ def main():
     except ApiException as e:
         print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
 
-
-
-    terminate_thread(sum_server)
-    terminate_thread(is_alive_server)
-    terminate_thread(doc_server)
+    sum_server.join()
+    is_alive_server.join()
+    doc_server.join()
 
 
 if __name__ == '__main__':

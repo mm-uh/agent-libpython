@@ -124,7 +124,7 @@ class AgentWrapper:
             print('Couldn\'t get agent by function')
             return None
 
-    def run_agent(self, agent_name: str, params: str):
+    def     run_agent(self, agent_name: str, params: str):
         if not self.update_api():
             print('Could\'t get peers')
             return
