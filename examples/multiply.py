@@ -9,7 +9,7 @@ def main():
     a = int(sys.argv[3])
     b = int(sys.argv[4])
     platform = PlatformWrapper(ip, port)
-    ag = platform.get_agent("Adder3")
+    ag = platform.get_agent("Adder")
     acum = 0
     for _ in range(b):
         acum = int(ag.sendToAgent(f'{acum} {a}'))

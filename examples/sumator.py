@@ -128,7 +128,7 @@ def terminate_thread(thread):
 
 
 def main():
-    name = 'Adder3'
+    name = 'Adder'
     function = 'Add'
     host = sys.argv[1]
     port = int(sys.argv[2])
