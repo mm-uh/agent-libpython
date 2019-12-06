@@ -167,7 +167,7 @@ class PlatformWrapper:
     def get_all_functions(self):
         if not self.update_api():
             print('Could\'t get peers')
-                return
+            return
         print('Getting all agents names')
         try:
             return self.api_instance.get_functions_names()
