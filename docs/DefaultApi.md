@@ -4,6 +4,7 @@ All URIs are relative to *http://agentplatform.grs.uh.cu/api/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**edit_agent**](DefaultApi.md#edit_agent) | **POST** /editAgent | 
 [**get_agent**](DefaultApi.md#get_agent) | **GET** /getAgent/{Name} | 
 [**get_agents_by_function**](DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction/{Name} | 
 [**get_agents_names**](DefaultApi.md#get_agents_names) | **GET** /getAllAgentsNames | 
@@ -11,6 +12,59 @@ Method | HTTP request | Description
 [**get_similar_agent**](DefaultApi.md#get_similar_agent) | **GET** /getSimilarAgents/{Name} | 
 [**register_agent**](DefaultApi.md#register_agent) | **POST** /registerAgent | 
 
+
+# **edit_agent**
+> edit_agent(body)
+
+
+
+Edit a registered Agent in the platform
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import lib_agent
+from lib_agent.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = lib_agent.DefaultApi()
+body = lib_agent.Agent() # Agent | Agent to edit
+
+try:
+    api_instance.edit_agent(body)
+except ApiException as e:
+    print("Exception when calling DefaultApi->edit_agent: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Agent**](Agent.md)| Agent to edit | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Agent edited |  -  |
+**0** | unexpected error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent**
 > list[Addr] get_agent(name)
@@ -56,7 +110,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -110,7 +164,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -160,7 +214,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -210,7 +264,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -221,7 +275,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_similar_agent**
-> Agent get_similar_agent(name)
+> list[str] get_similar_agent(name)
 
 
 
@@ -255,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Agent**](Agent.md)
+**list[str]**
 
 ### Authorization
 
@@ -264,7 +318,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -275,7 +329,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **register_agent**
-> register_agent(agent)
+> register_agent(body)
 
 
 
@@ -292,10 +346,10 @@ from pprint import pprint
 
 # Create an instance of the API class
 api_instance = lib_agent.DefaultApi()
-agent = lib_agent.Agent() # Agent | Agent to register
+body = lib_agent.Agent() # Agent | Agent to register
 
 try:
-    api_instance.register_agent(agent)
+    api_instance.register_agent(body)
 except ApiException as e:
     print("Exception when calling DefaultApi->register_agent: %s\n" % e)
 ```
@@ -304,7 +358,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **agent** | [**Agent**](Agent.md)| Agent to register | 
+ **body** | [**Agent**](Agent.md)| Agent to register | 
 
 ### Return type
 
@@ -316,8 +370,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: */*
 
 ### HTTP response details
 | Status code | Description | Response headers |

@@ -5,6 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **str** |  | [optional] 
 **function** | **str** |  | [optional] 
+**password** | **str** |  | [optional] 
 **endpoint_service** | [**list[Addr]**](Addr.md) |  | [optional] 
 **is_alive_service** | [**dict(str, Addr)**](Addr.md) |  | [optional] 
 **documentation** | [**dict(str, Addr)**](Addr.md) |  | [optional] 

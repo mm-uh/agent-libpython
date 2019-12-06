@@ -36,6 +36,7 @@ class Agent(object):
     openapi_types = {
         'name': 'str',
         'function': 'str',
+        'password': 'str',
         'endpoint_service': 'list[Addr]',
         'is_alive_service': 'dict(str, Addr)',
         'documentation': 'dict(str, Addr)',
@@ -45,13 +46,14 @@ class Agent(object):
     attribute_map = {
         'name': 'Name',
         'function': 'Function',
+        'password': 'Password',
         'endpoint_service': 'EndpointService',
         'is_alive_service': 'IsAliveService',
         'documentation': 'Documentation',
         'test_cases': 'TestCases'
     }
 
-    def __init__(self, name=None, function=None, endpoint_service=None, is_alive_service=None, documentation=None, test_cases=None, local_vars_configuration=None):  # noqa: E501
+    def __init__(self, name=None, function=None, password=None, endpoint_service=None, is_alive_service=None, documentation=None, test_cases=None, local_vars_configuration=None):  # noqa: E501
         """Agent - a model defined in OpenAPI"""  # noqa: E501
         if local_vars_configuration is None:
             local_vars_configuration = Configuration()
@@ -59,6 +61,7 @@ class Agent(object):
 
         self._name = None
         self._function = None
+        self._password = None
         self._endpoint_service = None
         self._is_alive_service = None
         self._documentation = None
@@ -69,6 +72,8 @@ class Agent(object):
             self.name = name
         if function is not None:
             self.function = function
+        if password is not None:
+            self.password = password
         if endpoint_service is not None:
             self.endpoint_service = endpoint_service
         if is_alive_service is not None:
@@ -119,6 +124,27 @@ class Agent(object):
         """
 
         self._function = function
+
+    @property
+    def password(self):
+        """Gets the password of this Agent.  # noqa: E501
+
+
+        :return: The password of this Agent.  # noqa: E501
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this Agent.
+
+
+        :param password: The password of this Agent.  # noqa: E501
+        :type: str
+        """
+
+        self._password = password
 
     @property
     def endpoint_service(self):
