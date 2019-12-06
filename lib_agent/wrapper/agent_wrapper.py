@@ -154,8 +154,8 @@ class PlatformWrapper:
         try:
             func = self.api_instance.get_agents_by_function(name)
             return func
-        except:
-            print('Couldn\'t get agent by function')
+        except Exception as e:
+            print('Couldn\'t get agent by function ' + str(e))
             return None
 
     def run_agent(self, agent_name: str, params: str):

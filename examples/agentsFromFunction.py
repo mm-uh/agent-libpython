@@ -18,8 +18,8 @@ def main():
             print("Getting agents of function "+ functions[index])
             agents = platform.get_agent_by_function(functions[index])
             print(agents)
-        except:
-            print("Error ")
+        except Exception as e:
+            print("Error " + str(e))
         time.sleep(10)
         
 
