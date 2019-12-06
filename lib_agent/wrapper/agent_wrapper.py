@@ -164,6 +164,16 @@ class PlatformWrapper:
             sock.close()
         return response
 
+    def get_all_functions(self):
+        if not self.update_api():
+            print('Could\'t get peers')
+                return
+        print('Getting all agents names')
+        try:
+            return self.api_instance.get_functions_names()
+        except:
+            print('Couldn\'t get all functions')
+            return None
 
 class AgentWrapper:
     def __init__(self, name, addrs, platform):
