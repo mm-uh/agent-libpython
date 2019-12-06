@@ -107,53 +107,32 @@ def handle_sum(ip, port):
             connection.close()
 
 
-def terminate_thread(thread):
-    """Terminates a python thread from another thread.
-
-    :param thread: a threading.Thread instance
-    """
-    if not thread.isAlive():
-        return
-
-    exc = ctypes.py_object(SystemExit)
-    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-        ctypes.c_long(thread.ident), exc)
-    if res == 0:
-        raise ValueError("nonexistent thread id")
-    elif res > 1:
-        # """if it returns a number greater than one, you're in trouble,
-        # and you should call it again with exc=NULL to revert the effect"""
-        ctypes.pythonapi.PyThreadState_SetAsyncExc(thread.ident, None)
-        raise SystemError("PyThreadState_SetAsyncExc failed")
-
-
 def main():
-    name = 'Adder3'
+    name = 'Adder2'
     function = 'Add'
     host = sys.argv[1]
     port = int(sys.argv[2])
     myIp = sys.argv[3]
     myPort = int(sys.argv[4])
     
-    wrapper = lib_agent.PlatformWrapper(host, port)
-    # wrapper = lib_agent.PlatformWrapper(host, port)
+    platform = lib_agent.PlatformWrapper(host, port)
+    
 
     test_case = [
         lib_agent.TestCase('1 2', '3'),
         lib_agent.TestCase('2 3', '5'),
     ]
     endpoint_service = [
-        lib_agent.Addr(f'{myIp}', 38080),
-        lib_agent.Addr(f'{myIp}', 38085),
+        lib_agent.Addr(f'{myIp}', myPort),
     ]
     
     is_alive_service = dict()
-    is_alive_service[f'{myIp}:38080'] = lib_agent.Addr(f'{myIp}', 38081)
-    is_alive_service[f'{myIp}:38085'] = lib_agent.Addr(f'{myIp}', 38086)
+    is_alive_service[f'{myIp}:{myPort}'] = lib_agent.Addr(f'{myIp}', (myPort+1))
+    
 
     documentation = dict()
-    documentation[f'{myIp}:38080'] = lib_agent.Addr(f'{myIp}', 38082)
-    documentation[f'{myIp}:38085'] = lib_agent.Addr(f'{myIp}', 38086)
+    documentation[f'{myIp}:{myPort}'] = lib_agent.Addr(f'{myIp}', (myPort+2))
+   
 
     # Agent | Agent to register
     agent = lib_agent.Agent(name=name, function=function, endpoint_service=endpoint_service,
@@ -168,48 +147,20 @@ def main():
     doc_server = threading.Thread(target=handle_documentation, args=(f'{myIp}', myPort+2))
     doc_server.start()
 
-    # Get Know peers
-    try:
-        wrapper.get_peers()
-        print(wrapper.know_peers)
-    except ApiException as e:
-        print("Exception when calling DefaultApi->get_peers: %s\n" % e)
-
     # Register Agent
-    # try:
-    #     wrapper.register_agent(agent)
-    #     print(wrapper.know_peers)
-    # except ApiException as e:
-    #     print("Exception when calling DefaultApi->register_agent: %s\n" % e)
-    # ag = None
-    # # Get Agent
-    # try:
-    #     ag = wrapper.get_agent(name)
-    #     print(ag)
-    # except ApiException as e:
-    #     print("Exception when calling DefaultApi->get_agent: %s\n" % e)
-
-    # Get registered functions
     try:
-        functions_names = wrapper.get_agent_by_function(function)
-        print(functions_names)
-    except ApiException as e:
-        print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
-
-    #Run agent
-    # try:
-        # response = wrapper.run_agent(agent.name, '1 2')
-        # print(response)
-    # except ApiException as e:
-        # print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
-# 
-    #Run agent
-    # try:
-        # response = wrapper.run_agent(agent.name, '1 2')
-        # print(response)
-    # except ApiException as e:
-        # print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
-
+        print("Registering")
+        platform.register_agent(agent)
+        print("Registered")
+    except:
+        print("Failing register, trying add endpoint")
+        try:
+            platform.add_endpoint(agent.name, agent.password, agent._endpoint_service, agent.is_alive_service, agent.documentation)
+        except Exception as e:
+            print(e)
+            print("Couldn\'t add agent")
+            return
+   
     sum_server.join()
     is_alive_server.join()
     doc_server.join()
