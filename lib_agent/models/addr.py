@@ -147,3 +147,6 @@ class Addr(object):
             return True
 
         return self.to_dict() != other.to_dict()
+    
+    def __hash__(self):
+        return f'{self.ip}:{self.port}'.__hash__()

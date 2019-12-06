@@ -65,14 +65,15 @@ class PlatformWrapper:
     def is_open(host, port):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
+            s.settimeout(2)
             s.connect((host, int(port)))
-            s.shutdown(2)
+            
             return True
         except:
             return False
 
     def update_api(self):
-        self.get_peers()
+        
         print('Updating api instance')
         if not self.is_open(self.host, self.port):
             for node in self.know_peers:
@@ -81,9 +82,11 @@ class PlatformWrapper:
                     self.port = node.port + 1000
                     self.config.host = f'http://{self.host}:{self.port}/api/v1'
                     self.api_instance = lib_agent.DefaultApi(lib_agent.ApiClient(self.config))
+                    self.get_peers()
                     return True
             else:
                 return False
+        self.get_peers()
         return True
 
     def get_agent(self, name: str):
