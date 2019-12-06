@@ -18,4 +18,6 @@ from __future__ import absolute_import
 from lib_agent.models.addr import Addr
 from lib_agent.models.agent import Agent
 from lib_agent.models.error import Error
+from lib_agent.models.recover_agent import RecoverAgent
 from lib_agent.models.test_case import TestCase
+from lib_agent.models.updater_agent import UpdaterAgent
