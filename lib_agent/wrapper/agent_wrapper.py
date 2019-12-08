@@ -18,7 +18,7 @@ def Retry(f):
                 args = [arg for arg in args]
                 args[0] = args[0].refreshAgent()
                 if args[0] is None:
-                    raise "There is not active agents"
+                    raise Exception("There is not active agents")
     return decorate
         
 
@@ -55,7 +55,7 @@ class PlatformWrapper:
         seed(1)
         rnd = randint(0, len(self.know_peers))
         config = lib_agent.Configuration()
-        config.host = f'http://{self.know_peers[rnd].ip}:{self.know_peers[rnd].port + 1000}/api/v1'
+        config.host = f'http://{self.know_peers[rnd].ip}:{self.know_peers[rnd].port}/api/v1'
         api_temp = lib_agent.DefaultApi(lib_agent.ApiClient(config))
         try:
             temp_peers = api_temp.get_peers()
@@ -80,9 +80,9 @@ class PlatformWrapper:
         print('Updating api instance')
         if not self.is_open(self.host, self.port):
             for node in self.know_peers:
-                if self.is_open(node.ip, node.port + 1000):
+                if self.is_open(node.ip, node.port):
                     self.host = node.ip
-                    self.port = node.port + 1000
+                    self.port = node.port
                     self.config.host = f'http://{self.host}:{self.port}/api/v1'
                     self.api_instance = lib_agent.DefaultApi(lib_agent.ApiClient(self.config))
                     self.get_peers()
