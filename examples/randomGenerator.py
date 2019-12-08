@@ -101,3 +101,82 @@ def handle_random(ip, port):
 
 
 
+def main():
+    name = 'Adder'
+    function = 'Add'
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+    myIp = sys.argv[3]
+    myPort = int(sys.argv[4])
+    
+    wrapper = lib_agent.PlatformWrapper(host, port)
+    # wrapper = lib_agent.PlatformWrapper(host, port)
+
+    test_case = [
+        lib_agent.TestCase('1 2', '3'),
+        lib_agent.TestCase('2 3', '5'),
+    ]
+    endpoint_service = [
+        lib_agent.Addr(f'{myIp}', 38080),
+        lib_agent.Addr(f'{myIp}', 38085),
+    ]
+    
+    is_alive_service = dict()
+    is_alive_service[f'{myIp}:38080'] = lib_agent.Addr(f'{myIp}', 38081)
+    is_alive_service[f'{myIp}:38085'] = lib_agent.Addr(f'{myIp}', 38086)
+
+    documentation = dict()
+    documentation[f'{myIp}:38080'] = lib_agent.Addr(f'{myIp}', 38082)
+    documentation[f'{myIp}:38085'] = lib_agent.Addr(f'{myIp}', 38086)
+
+    # Agent | Agent to register
+    agent = lib_agent.Agent(name=name, function=function, endpoint_service=endpoint_service,
+                            documentation=documentation, is_alive_service=is_alive_service, test_cases=test_case)
+
+    sum_server = threading.Thread(target=handle_sum, args=(f'{myIp}', myPort))
+    sum_server.start()
+
+    is_alive_server = threading.Thread(target=handle_is_alive, args=(f'{myIp}', myPort+1))
+    is_alive_server.start()
+
+    doc_server = threading.Thread(target=handle_documentation, args=(f'{myIp}', myPort+2))
+    doc_server.start()
+
+    # Get Know peers
+    try:
+       
+        wrapper.get_peers()
+        print(wrapper.know_peers)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_peers: %s\n" % e)
+
+    # Register Agent
+    try:
+        print("Registering")
+        wrapper.register_agent(agent)
+        print(wrapper.know_peers)
+        print("Registered")
+    except ApiException as e:
+        print("Exception when calling DefaultApi->register_agent: %s\n" % e)
+    ag = None
+    # Get Agent
+    try:
+        ag = wrapper.get_agent(name)
+        print(ag)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_agent: %s\n" % e)
+
+    # Get registered functions
+    try:
+        functions_names = wrapper.get_agent_by_function(function)
+        print(functions_names)
+    except ApiException as e:
+        print("Exception when calling DefaultApi->get_agent_by_function: %s\n" % e)
+
+    sum_server.join()
+    is_alive_server.join()
+    doc_server.join()
+
+
+if __name__ == '__main__':
+    main()
