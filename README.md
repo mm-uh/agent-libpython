@@ -56,13 +56,12 @@ from pprint import pprint
 configuration.host = "http://agentplatform.grs.uh.cu/api/v1"
 # Create an instance of the API class
 api_instance = lib_agent.DefaultApi(lib_agent.ApiClient(configuration))
-name = 'name_example' # str | Name of the Agent
+body = lib_agent.UpdaterAgent() # UpdaterAgent | Endpoints to add
 
 try:
-    api_response = api_instance.get_agent(name)
-    pprint(api_response)
+    api_instance.add_endpoints(body)
 except ApiException as e:
-    print("Exception when calling DefaultApi->get_agent: %s\n" % e)
+    print("Exception when calling DefaultApi->add_endpoints: %s\n" % e)
 
 ```
 
@@ -72,11 +71,15 @@ All URIs are relative to *http://agentplatform.grs.uh.cu/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**add_endpoints**](docs/DefaultApi.md#add_endpoints) | **POST** /addEndpoints | 
+*DefaultApi* | [**edit_agent**](docs/DefaultApi.md#edit_agent) | **POST** /editAgent | 
 *DefaultApi* | [**get_agent**](docs/DefaultApi.md#get_agent) | **GET** /getAgent/{Name} | 
 *DefaultApi* | [**get_agents_by_function**](docs/DefaultApi.md#get_agents_by_function) | **GET** /getAgentsForFunction/{Name} | 
 *DefaultApi* | [**get_agents_names**](docs/DefaultApi.md#get_agents_names) | **GET** /getAllAgentsNames | 
+*DefaultApi* | [**get_functions_names**](docs/DefaultApi.md#get_functions_names) | **GET** /getAllFunctionsNames | 
 *DefaultApi* | [**get_peers**](docs/DefaultApi.md#get_peers) | **GET** /getPeers | 
 *DefaultApi* | [**get_similar_agent**](docs/DefaultApi.md#get_similar_agent) | **GET** /getSimilarAgents/{Name} | 
+*DefaultApi* | [**recover_agent**](docs/DefaultApi.md#recover_agent) | **POST** /recoverAgent | 
 *DefaultApi* | [**register_agent**](docs/DefaultApi.md#register_agent) | **POST** /registerAgent | 
 
 
@@ -85,7 +88,9 @@ Class | Method | HTTP request | Description
  - [Addr](docs/Addr.md)
  - [Agent](docs/Agent.md)
  - [Error](docs/Error.md)
+ - [RecoverAgent](docs/RecoverAgent.md)
  - [TestCase](docs/TestCase.md)
+ - [UpdaterAgent](docs/UpdaterAgent.md)
 
 
 ## Documentation For Authorization

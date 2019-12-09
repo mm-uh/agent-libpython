@@ -32,6 +32,8 @@ from lib_agent.exceptions import ApiException
 from lib_agent.models.addr import Addr
 from lib_agent.models.agent import Agent
 from lib_agent.models.error import Error
+from lib_agent.models.recover_agent import RecoverAgent
 from lib_agent.models.test_case import TestCase
-from lib_agent.wrapper.agent_wrapper import AgentWrapper
+from lib_agent.models.updater_agent import UpdaterAgent
+from lib_agent.wrapper.agent_wrapper import AgentWrapper, PlatformWrapper
 
